@@ -1,16 +1,10 @@
 # group33
+For people using this.
 
-A new Flutter project.
+You must change the directory in the CMakeCache File to whereever you are running it from.
 
-## Getting Started
+..maind\build\windows\CMakeCache.txt
 
-This project is a starting point for a Flutter application.
+replace the .. with the path to said file.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+I currently do not know of a way around this.
