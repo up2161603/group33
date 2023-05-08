@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       home: const LoginPage(title: 'Login Page'),
       routes: {
         '/home': (context) => const HomePage(title: 'Home Page'),
+        '/signup': (context) => SignUpPage(title: 'Sign Up'),
         '/account': (context) => const AccountPage(title: 'Account Page'),
         '/settings': (context) => const SettingsPage(title: 'Settings Page'),
         '/schedule': (context) => const SchedulePage(title: 'Schedule Page'),
@@ -47,6 +48,10 @@ class _LoginPageState extends State<LoginPage> {
 
   void _loginPressed() {
     Navigator.pushNamed(context, '/home');
+  }
+
+  void _signupPressed() {
+    Navigator.pushNamed(context, '/signup');
   }
 
   @override
@@ -80,6 +85,79 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: _loginPressed,
               child: const Text('Login'),
+            ),
+            const SizedBox(height: 8.0),
+            TextButton(
+              onPressed: _signupPressed,
+              child: const Text('Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _signUpPressed() {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    // Save the username and password to a database or file.
+    // Here, we are just printing them for demonstration purposes.
+    print('Username: $username');
+    print('Password: $password');
+    Navigator.pushNamed(context, '/home');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _signUpPressed,
+              child: const Text('Sign Up'),
             ),
           ],
         ),
