@@ -11,13 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BADA',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const LoginPage(title: 'Login Page'),
       routes: {
         '/home': (context) => const HomePage(title: 'Home Page'),
+        '/signup': (context) => SignUpPage(title: 'Sign Up'),
         '/account': (context) => const AccountPage(title: 'Account Page'),
         '/settings': (context) => const SettingsPage(title: 'Settings Page'),
         '/schedule': (context) => const SchedulePage(title: 'Schedule Page'),
@@ -47,6 +48,10 @@ class _LoginPageState extends State<LoginPage> {
 
   void _loginPressed() {
     Navigator.pushNamed(context, '/home');
+  }
+
+  void _signupPressed() {
+    Navigator.pushNamed(context, '/signup');
   }
 
   @override
@@ -81,6 +86,11 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: _loginPressed,
               child: const Text('Login'),
             ),
+            const SizedBox(height: 8.0),
+            TextButton(
+              onPressed: _signupPressed,
+              child: const Text('Sign Up'),
+            ),
           ],
         ),
       ),
@@ -88,15 +98,90 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key, required this.title}) : super(key: key);
   final String title;
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _signUpPressed() {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    // Save the username and password to a database or file.
+    // Here, we are just printing them for demonstration purposes.
+    print('Username: $username');
+    print('Password: $password');
+    Navigator.pushNamed(context, '/home');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _signUpPressed,
+              child: const Text('Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
         actions: [
           IconButton(
             onPressed: () {
@@ -118,11 +203,18 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Text(
-          'Welcome to the Home Page!',
-          style: Theme.of(context).textTheme.headline4,
-        ),
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Meals and their dates will appear here.',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -168,14 +260,28 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key, required this.title}) : super(key: key);
   final String title;
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool _toggle1 = false;
+  bool _toggle2 = false;
+  bool _toggle3 = false;
+  bool _toggle4 = false;
+  bool _toggle5 = false;
+  bool _toggle6 = false;
+  bool _toggle7 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         actions: [
           IconButton(
             onPressed: () {
@@ -197,10 +303,61 @@ class SettingsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Text(
-          'Welcome to the Settings Page!',
-          style: Theme.of(context).textTheme.headlineMedium,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Dietary Requirements',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            SwitchListTile(
+              title: const Text('Vegetarian'),
+              value: _toggle1,
+              onChanged: (value) {
+                setState(() {
+                  _toggle1 = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: const Text('Vegen'),
+              value: _toggle2,
+              onChanged: (value) {
+                setState(() {
+                  _toggle2 = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: const Text('Kosher'),
+              value: _toggle3,
+              onChanged: (value) {
+                setState(() {
+                  _toggle3 = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: const Text('Lactose Intolerance'),
+              value: _toggle4,
+              onChanged: (value) {
+                setState(() {
+                  _toggle4 = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: const Text('Gluten-Free'),
+              value: _toggle5,
+              onChanged: (value) {
+                setState(() {
+                  _toggle5 = value;
+                });
+              },
+            ),
+          ],
         ),
       ),
     );
