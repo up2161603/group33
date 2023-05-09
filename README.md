@@ -1,4 +1,4 @@
-//readme
+Instructions and Notes for our app.
 
 If you are running this on your PC please use VSCode its the simplist way of running it.
 
