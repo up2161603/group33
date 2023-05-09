@@ -36,13 +36,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _emailController,
+              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              controller: _passwordController,
+              controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
@@ -107,19 +107,19 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
   void _signUpPressed() {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
+    final username = usernameController.text;
+    final password = passwordController.text;
     // Save the username and password to a database or file.
     // Here, we are just printing them for demonstration purposes.
     print('Username: $username');
@@ -139,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _usernameController,
+              controller: usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -147,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              controller: _passwordController,
+              controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
@@ -175,7 +175,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -371,15 +371,15 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  CalendarFormat calendarFormat = CalendarFormat.month;
+  DateTime focusedDay = DateTime.now();
+  DateTime? selectedDay;
   Map<DateTime, List<String>> _meals = {};
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
-      _selectedDay = selectedDay;
-      _focusedDay = focusedDay;
+      selectedDay = selectedDay;
+      focusedDay = focusedDay;
     });
   }
 
@@ -410,7 +410,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 if (_controller.text.isNotEmpty) {
                   setState(() {
                     _meals.update(
-                      _selectedDay!,
+                      selectedDay!,
                       (_meals) => _meals..add(_controller.text),
                       ifAbsent: () => [_controller.text],
                     );
@@ -457,11 +457,11 @@ class _SchedulePageState extends State<SchedulePage> {
           TableCalendar(
             firstDay: DateTime.utc(2020, 01, 01),
             lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
+            focusedDay: focusedDay,
+            calendarFormat: calendarFormat,
             onDaySelected: _onDaySelected,
             selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
+              return isSameDay(selectedDay, day);
             },
             eventLoader: (day) {
               return _meals[day] ?? [];
@@ -469,15 +469,15 @@ class _SchedulePageState extends State<SchedulePage> {
           ),
           const SizedBox(height: 20),
           Text(
-            'Selected Day: ${_selectedDay?.toIso8601String() ?? 'None'}',
+            'Selected Day: ${selectedDay?.toIso8601String() ?? 'None'}',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: _meals[_selectedDay]?.length ?? 0,
+              itemCount: _meals[selectedDay]?.length ?? 0,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_meals[_selectedDay]![index]),
+                  title: Text(_meals[selectedDay]![index]),
                 );
               },
             ),
@@ -485,7 +485,7 @@ class _SchedulePageState extends State<SchedulePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _selectedDay != null ? () => _addMeal(context) : null,
+        onPressed: selectedDay != null ? () => _addMeal(context) : null,
         tooltip: 'Add Meal',
         child: const Icon(Icons.add),
       ),
