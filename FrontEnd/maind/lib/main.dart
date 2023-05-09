@@ -269,13 +269,11 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _toggle1 = false;
-  bool _toggle2 = false;
-  bool _toggle3 = false;
-  bool _toggle4 = false;
-  bool _toggle5 = false;
-  bool _toggle6 = false;
-  bool _toggle7 = false;
+  bool Vegetarian = false;
+  bool Vegan = false;
+  bool Kosher = false;
+  bool LacTose = false;
+  bool GluFree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -314,46 +312,46 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SwitchListTile(
               title: const Text('Vegetarian'),
-              value: _toggle1,
+              value: Vegetarian,
               onChanged: (value) {
                 setState(() {
-                  _toggle1 = value;
+                  Vegetarian = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Vegen'),
-              value: _toggle2,
+              value: Vegan,
               onChanged: (value) {
                 setState(() {
-                  _toggle2 = value;
+                  Vegan = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Kosher'),
-              value: _toggle3,
+              value: Kosher,
               onChanged: (value) {
                 setState(() {
-                  _toggle3 = value;
+                  Kosher = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Lactose Intolerance'),
-              value: _toggle4,
+              value: LacTose,
               onChanged: (value) {
                 setState(() {
-                  _toggle4 = value;
+                  LacTose = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Gluten-Free'),
-              value: _toggle5,
+              value: GluFree,
               onChanged: (value) {
                 setState(() {
-                  _toggle5 = value;
+                  GluFree = value;
                 });
               },
             ),
