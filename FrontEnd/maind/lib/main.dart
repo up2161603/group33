@@ -36,13 +36,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: emailController,
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              controller: passwordController,
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
@@ -107,19 +107,19 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   void _signUpPressed() {
-    final username = usernameController.text;
-    final password = passwordController.text;
+    final username = _usernameController.text;
+    final password = _passwordController.text;
     // Save the username and password to a database or file.
     // Here, we are just printing them for demonstration purposes.
     print('Username: $username');
@@ -139,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: usernameController,
+              controller: _usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -147,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              controller: passwordController,
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
@@ -175,7 +175,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -269,11 +269,13 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool Vegetarian = false;
-  bool Vegan = false;
-  bool Kosher = false;
-  bool LacTose = false;
-  bool GluFree = false;
+  bool _toggle1 = false;
+  bool _toggle2 = false;
+  bool _toggle3 = false;
+  bool _toggle4 = false;
+  bool _toggle5 = false;
+  bool _toggle6 = false;
+  bool _toggle7 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -312,46 +314,46 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SwitchListTile(
               title: const Text('Vegetarian'),
-              value: Vegetarian,
+              value: _toggle1,
               onChanged: (value) {
                 setState(() {
-                  Vegetarian = value;
+                  _toggle1 = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Vegen'),
-              value: Vegan,
+              value: _toggle2,
               onChanged: (value) {
                 setState(() {
-                  Vegan = value;
+                  _toggle2 = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Kosher'),
-              value: Kosher,
+              value: _toggle3,
               onChanged: (value) {
                 setState(() {
-                  Kosher = value;
+                  _toggle3 = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Lactose Intolerance'),
-              value: LacTose,
+              value: _toggle4,
               onChanged: (value) {
                 setState(() {
-                  LacTose = value;
+                  _toggle4 = value;
                 });
               },
             ),
             SwitchListTile(
               title: const Text('Gluten-Free'),
-              value: GluFree,
+              value: _toggle5,
               onChanged: (value) {
                 setState(() {
-                  GluFree = value;
+                  _toggle5 = value;
                 });
               },
             ),
@@ -371,32 +373,68 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  CalendarFormat calendarFormat = CalendarFormat.month;
-  DateTime focusedDay = DateTime.now();
-  DateTime? selectedDay;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
   Map<DateTime, List<String>> _meals = {};
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
-      selectedDay = selectedDay;
-      focusedDay = focusedDay;
+      _selectedDay = selectedDay;
+      _focusedDay = focusedDay;
     });
   }
 
-  // This code works but they are required to be saved to a database
-  // otherwise they disappear after you change pages.
   void _addMeal(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController _controller = TextEditingController();
+        TextEditingController _mealController = TextEditingController();
+        TextEditingController _priceController = TextEditingController();
+        TextEditingController _caloriesController = TextEditingController();
+        String _selectedMealType = 'Breakfast';
+
         return AlertDialog(
           title: const Text('Add Meal'),
-          content: TextField(
-            controller: _controller,
-            decoration: const InputDecoration(
-              hintText: 'Enter Text Here',
-            ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButton<String>(
+                value: _selectedMealType,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedMealType = newValue!;
+                  });
+                },
+                items: <String>['Breakfast', 'Lunch', 'Dinner']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              TextField(
+                controller: _mealController,
+                decoration: const InputDecoration(
+                  labelText: 'Meal Name',
+                ),
+              ),
+              TextField(
+                controller: _priceController,
+                decoration: const InputDecoration(
+                  labelText: 'Price (£)',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: _caloriesController,
+                decoration: const InputDecoration(
+                  labelText: 'Calories',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -407,12 +445,17 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_controller.text.isNotEmpty) {
+                if (_mealController.text.isNotEmpty &&
+                    _priceController.text.isNotEmpty &&
+                    _caloriesController.text.isNotEmpty) {
                   setState(() {
+                    final meal = '${_mealController.text} - '
+                        '$_selectedMealType £${_priceController.text} - '
+                        '${_caloriesController.text} kcal';
                     _meals.update(
-                      selectedDay!,
-                      (_meals) => _meals..add(_controller.text),
-                      ifAbsent: () => [_controller.text],
+                      _selectedDay!,
+                      (meals) => meals..add(meal),
+                      ifAbsent: () => [meal],
                     );
                   });
                   Navigator.pop(context);
@@ -457,11 +500,11 @@ class _SchedulePageState extends State<SchedulePage> {
           TableCalendar(
             firstDay: DateTime.utc(2020, 01, 01),
             lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: focusedDay,
-            calendarFormat: calendarFormat,
+            focusedDay: _focusedDay,
+            calendarFormat: _calendarFormat,
             onDaySelected: _onDaySelected,
             selectedDayPredicate: (day) {
-              return isSameDay(selectedDay, day);
+              return isSameDay(_selectedDay, day);
             },
             eventLoader: (day) {
               return _meals[day] ?? [];
@@ -469,15 +512,15 @@ class _SchedulePageState extends State<SchedulePage> {
           ),
           const SizedBox(height: 20),
           Text(
-            'Selected Day: ${selectedDay?.toIso8601String() ?? 'None'}',
+            'Selected Day: ${_selectedDay?.toIso8601String() ?? 'None'}',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: _meals[selectedDay]?.length ?? 0,
+              itemCount: _meals[_selectedDay]?.length ?? 0,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_meals[selectedDay]![index]),
+                  title: Text(_meals[_selectedDay]![index]),
                 );
               },
             ),
@@ -485,7 +528,7 @@ class _SchedulePageState extends State<SchedulePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: selectedDay != null ? () => _addMeal(context) : null,
+        onPressed: _selectedDay != null ? () => _addMeal(context) : null,
         tooltip: 'Add Meal',
         child: const Icon(Icons.add),
       ),
