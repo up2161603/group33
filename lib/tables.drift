@@ -1,18 +1,13 @@
 CREATE TABLE users (
 	userID INT PRIMARY KEY AUTOINCREMENT,
-	name TEXT,
-	email TEXT
+	email TEXT,
+	password TEXT,
+	dietRests DietaryRestrictions
 );
 
 CREATE TABLE calendars (
     calendarID INT PRIMARY KEY AUTOINCREMENT,
     userID INT REFERENCES users(userID)
-);
-
-CREATE TABLE dateTime (
-    time MealOfDay,
-    date DATE,
-    PRIMARY KEY (time, date)
 );
 
 CREATE TABLE ingredients (
@@ -21,10 +16,46 @@ CREATE TABLE ingredients (
     dietRests DietaryRestrictions
 );
 
-CREATE TABLE meals (
+CREATE TABLE recipes (
     name TEXT PRIMARY KEY,
-    costPerServ FLOAT
+    dietRests DietaryRestrictions
+);
+
+CREATE TABLE recipe_ingredients (
+    recipe TEXT REFERENCES recipes(name),
+    ingredient TEXT ingredients(name),
+    quantity FLOAT,
+    PRIMARY KEY (recipe, ingredients)
+);
+
+CREATE TABLE meals (
+    date DATE,
+    time MealOfDay,
+    PRIMARY KEY (date, time),
+    recipe TEXT REFERENCES recipes(name),
+    calendarID INT REFERENCES calendars(calendarID)
 );
 
 
+-- Insertion methods
+addUser: INSERT INTO users (email, password, dietRests) VALUES (:email, :password, :dietRests);
+addCalendar: INSERT INTO calendars (userID) VALUES (:userID);
+addMeal: INSERT INTO meals (date, time, recipe) VALUES (:date, :time, :recipe);
+addRecipe: INSERT INTO recipes (name, dietRests) VALUES (:name, :dietRests);
+addIngredient: INSERT INTO ingredients (name, costPer100g, dietRests) VALUES (:name, :costPer100g, :dietRests);
+addRecipeIngredient: INSERT INTO recipeIngredient (recipe, ingredient, quantity) VALUES (:recipe, :ingredient, :quantity);
 
+-- Fetching methods
+getUser: SELECT FROM users WHERE email = :email;
+getCalendar: SELECT FROM calendars WHERE userID = :userID;
+getMeal: SELECT FROM meals WHERE date = :date AND time = :time AND calendarID = :calendarID;
+getRecipe: SELECT FROM recipes WHERE name = :name;
+getIngredient: SELECT FROM ingredients WHERE name = :name;
+getIngredients: SELECT ingredient, quantity FROM recipe_ingredients WHERE recipe = :recipe;
+
+-- Deletion methods
+deleteUser: DELETE FROM users WHERE email = :email;
+deleteCalendar: DELETE FROM calendars WHERE userID = :userID;
+deleteMeal: DELETE FROM meals WHERE date = :date AND time = :time;
+deleteRecipe: DELETE FROM recipes WHERE name = :name;
+deleteIngredient: DELETE FROM ingredients WHERE name = :name;
